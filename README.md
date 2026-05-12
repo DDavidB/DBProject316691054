@@ -23,19 +23,20 @@
 להלן המבנה הלוגי של הטבלאות המרכזיות במערכת:
 
 שם הטבלה,שם השדה,טיפוס נתונים,אילוצים (Constraints),תיאור
-Patients,Patient_ID,INT,PK,מזהה ייחודי (ת.ז) של המטופל
-,Contact_Info,JSONB,-,"טלפון, אימייל וכתובת מגורים"
-Doctors,License_Number,INT,PK,מספר רישיון רפואי ממשלתי
-,Working_Hours,JSONB,-,שעות קבלה שבועיות
-Appointments,Appointment_ID,INT,PK,מזהה ייחודי לכל תור ביומן
-,Status,VARCHAR(20),CHECK (Scheduled/Completed/Cancelled),מצב התור הנוכחי
-Visits_Records,Visit_ID,INT,PK,מזהה ייחודי לסיכום הרפואי
-,Vitals_Data,JSONB,-,"מדדים: לחץ דם, חום, משקל ודופק"
-Prescriptions,Prescription_ID,INT,PK,מזהה ייחודי למרשם
-,Medication_Name,VARCHAR(100),NOT NULL,שם התרופה (גנרי או מסחרי)
-Payments,Payment_ID,INT,PK,מזהה ייחודי לחשבונית/קבלה
-,Amount,"DECIMAL(10,2)",CHECK (Amount > 0),סכום התשלום
-
+| שם הטבלה | שם השדה | טיפוס נתונים | אילוצים (Constraints) | תיאור |
+| :--- | :--- | :--- | :--- | :--- |
+| **Patients** | Patient_ID | INT | PK | מזהה ייחודי (ת.ז) של המטופל |
+| **Patients** | Contact_Info | JSONB | - | טלפון, אימייל וכתובת מגורים |
+| **Doctors** | License_Number | INT | PK | מספר רישיון רפואי ממשלתי |
+| **Doctors** | Working_Hours | JSONB | - | שעות קבלה שבועיות |
+| **Appointments** | Appointment_ID | INT | PK | מזהה ייחודי לכל תור ביומן |
+| **Appointments** | Status | VARCHAR(20) | CHECK | Scheduled, Completed, Cancelled |
+| **Visits_Records**| Visit_ID | INT | PK | מזהה ייחודי לסיכום הרפואי |
+| **Visits_Records**| Vitals_Data | JSONB | - | מדדים: לחץ דם, חום, משקל ודופק |
+| **Prescriptions** | Prescription_ID| INT | PK | מזהה ייחודי למרשם |
+| **Prescriptions** | Medication_Name| VARCHAR(100) | NOT NULL | שם התרופה (גנרי או מסחרי) |
+| **Payments** | Payment_ID | INT | PK | מזהה ייחודי לחשבונית/קבלה |
+| **Payments** | Amount | DECIMAL(10,2) | CHECK (Amount > 0) | סכום התשלום |
 
 4. ארכיטקטורת נתונים
 ERD: תרשים ישויות וקשרים המציג את הלוגיקה העסקית.
