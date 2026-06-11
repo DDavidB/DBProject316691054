@@ -1,53 +1,52 @@
-# DBProject316691054
+# DBProject316691054 - Clinic Management System
 
-פרויקט בסיסי נתונים - מערכת ניהול מרפאה (שלב א')
-מגיש: דוד ברכה | ת.ז: 316691054
+**Database Systems Project**
+**Submitted by:** David Bracha | **ID:** 316691054
 
-1. מבוא ותיאור המערכת
-מערכת זו נועדה לניהול כולל של מרפאה מודרנית. המערכת מאפשרת מעקב רפואי ופיננסי מלא: החל משלב רישום המטופל והרופא, דרך קביעת תורים ביומן, תיעוד מדדים ואבחנות בביקור, ועד להנפקת מרשמים וניהול תשלומים.
-הייחוד של המערכת הוא השימוש בשדות JSONB המאפשרים גמישות מרבית באחסון נתונים משתנים כמו פרטי קשר, שעות עבודה של רופאים ומדדים רפואיים (לחץ דם, דופק וכו').  
+---
 
-2. איפיון הממשק (Characterization)
-איפיון המערכת כולל 4 מסכים עיקריים המפורטים בקבצי ה-HTML המצורפים:
+## 1. Project Introduction & System Description
+This project features a robust **Clinic Management System** built on a normalized relational database designed for managing patients, doctors, appointments, medical visits, prescriptions, and billing. 
 
-לוח בקרה וניהול תורים: תצוגת תורים יומית וסטטוס זמינות.
+Following a strict refactoring process, the system strictly adheres to classic database normalization rules (up to 3NF) for maximum data integrity. All unstructured data types (such as JSON/JSONB) have been completely eliminated in favor of clear table schemas, scalar variables, and structured relations. This ensures strong consistency, foreign key constraints, and optimal relational querying.
 
-תיק מטופל דיגיטלי: היסטוריה רפואית, רגישויות לתרופות ופרטי התקשרות.
+## 2. UI/UX Interface Characterization (HTML Screens)
+The system's interface and workflow are characterized by 4 main screens implemented in the accompanying HTML files:
+* **Dashboard & Appointment Management**: A daily schedule view displaying appointment statuses and doctor availability.
+* **Digital Patient File**: Comprehensive medical history, medication sensitivities, and contact information.
+* **Doctor Onboarding**: Registration screen for new medical staff, including their specialties and working hours.
+* **Billing & Invoice Management**: Generation of charges for medical services and payment tracking.
 
-הוספת צוות רפואי: רישום רופאים חדשים, מומחיות ושעות קבלה.
+## 3. Refactored Data Dictionary
+The following table illustrates the logical structure of the core, newly-refactored tables in the system:
 
-ניהול תשלומים וחשבוניות: הפקת חיובים על שירותים רפואיים ומעקב סליקה.
-
-
-3. מילון נתונים (Data Dictionary)
-להלן המבנה הלוגי של הטבלאות המרכזיות במערכת:
-
-שם הטבלה,שם השדה,טיפוס נתונים,אילוצים (Constraints),תיאור
-| שם הטבלה | שם השדה | טיפוס נתונים | אילוצים (Constraints) | תיאור |
+| Table Name | Field Name | Data Type | Constraints | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| **Patients** | Patient_ID | INT | PK | מזהה ייחודי (ת.ז) של המטופל |
-| **Patients** | Contact_Info | JSONB | - | טלפון, אימייל וכתובת מגורים |
-| **Doctors** | License_Number | INT | PK | מספר רישיון רפואי ממשלתי |
-| **Doctors** | Working_Hours | JSONB | - | שעות קבלה שבועיות |
-| **Appointments** | Appointment_ID | INT | PK | מזהה ייחודי לכל תור ביומן |
-| **Appointments** | Status | VARCHAR(20) | CHECK | Scheduled, Completed, Cancelled |
-| **Visits_Records**| Visit_ID | INT | PK | מזהה ייחודי לסיכום הרפואי |
-| **Visits_Records**| Vitals_Data | JSONB | - | מדדים: לחץ דם, חום, משקל ודופק |
-| **Prescriptions** | Prescription_ID| INT | PK | מזהה ייחודי למרשם |
-| **Prescriptions** | Medication_Name| VARCHAR(100) | NOT NULL | שם התרופה (גנרי או מסחרי) |
-| **Payments** | Payment_ID | INT | PK | מזהה ייחודי לחשבונית/קבלה |
-| **Payments** | Amount | DECIMAL(10,2) | CHECK (Amount > 0) | סכום התשלום |
+| **Patients** | Patient_ID | INT | PK | Unique identifier (ID) for the patient |
+| **Patients** | Phone | VARCHAR(20) | - | Patient's phone number |
+| **Patients** | Email | VARCHAR(100) | - | Patient's email address |
+| **Patients** | Address | VARCHAR(255) | - | Patient's physical address |
+| **Doctors** | License_Number | INT | PK | Government medical license number |
+| **Doctor_Working_Hours** | Schedule_ID | SERIAL | PK | Unique identifier for a shift |
+| **Doctor_Working_Hours** | License_Number | INT | FK | References the Doctors table |
+| **Doctor_Working_Hours** | Day_Of_Week | VARCHAR(15) | - | Day of the week for the shift |
+| **Doctor_Working_Hours** | Start_Time | TIME | - | Shift start time |
+| **Doctor_Working_Hours** | End_Time | TIME | - | Shift end time |
+| **Appointments** | Appointment_ID | INT | PK | Unique identifier for calendar appointments |
+| **Appointments** | Status | VARCHAR(20) | CHECK | E.g., Scheduled, Completed, Cancelled |
+| **Visits_Records** | Visit_ID | INT | PK | Unique identifier for medical summaries |
+| **Visits_Records** | Temperature | DECIMAL(4,2)| - | Body temperature |
+| **Visits_Records** | Blood_Pressure | VARCHAR(20) | - | Blood pressure reading (e.g., '120/80') |
+| **Visits_Records** | Weight | DECIMAL(5,2)| - | Patient weight |
+| **Visits_Records** | Pulse | INT | - | Pulse rate |
+| **Prescriptions** | Prescription_ID| INT | PK | Unique identifier for a prescription |
+| **Prescriptions** | Medication_Name| VARCHAR(100)| NOT NULL | Name of the medication |
+| **Payments** | Payment_ID | INT | PK | Unique identifier for invoices/receipts |
+| **Payments** | Amount | DECIMAL(10,2)| CHECK (> 0)| Payment amount |
 
-4. ארכיטקטורת נתונים
-ERD: תרשים ישויות וקשרים המציג את הלוגיקה העסקית.
+## 4. Data Seeding Methodologies
+The database was aggressively load-tested and populated with over 20,000 relational records. We accomplished this using 3 distinct data population techniques:
 
-DSD: סכמה לוגית מנורמלת המציגה את מבנה הטבלאות והקישורים (Foreign Keys).
-
-5. אכלוס נתונים (Data Seeding)
-המערכת אוכלסה בלמעלה מ-20,000 רשומות באמצעות שלוש שיטות:
-
-ידנית (Manual): הכנסת נתונים בסיסיים ב-SQL Editor לבדיקת תקינות הקשרים.
-
-Mockaroo: יצירת 500 רשומות ריאליסטיות של מטופלים ורופאים.
-
-Python Script: סקריפט אוטומטי המייצר 20,000 רשומות לטבלאות Payments ו-Visits_Records לעמידה בדרישות עומס המערכת.
+1. **Manual Seeding**: Basic, hand-written SQL `INSERT` statements to establish initial schema validation and confirm that core relationships and foreign key constraints function properly.
+2. **Mockaroo Generation**: Bulk generation of 500 highly realistic, structured rows of data for both the Patients and Doctors tables.
+3. **Automated Python Scripting**: A custom script (`generate_data.py`) algorithmically generated over 20,000 rigorous relational rows (specifically targeting heavy-load tables like Payments and Visits_Records) utilizing pure scalar inputs and loop-based logic.
