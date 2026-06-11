@@ -1,4 +1,4 @@
--- בדיקת נתונים בכל הטבלאות
+-- Check data in all tables
 SELECT * FROM Patients;
 SELECT * FROM Doctors;
 SELECT * FROM Appointments;

@@ -1,4 +1,4 @@
--- מחיקת טבלאות בסדר הפוך לתלות ביניהן
+-- Delete tables in reverse order of their dependencies
 DROP TABLE IF EXISTS Payments;
 DROP TABLE IF EXISTS Prescriptions;
 DROP TABLE IF EXISTS Visits_Records;

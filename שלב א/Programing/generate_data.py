@@ -1,23 +1,23 @@
 import random
 import json
 
-# פונקציה ליצירת תאריך אקראי
+# Function to generate a random date
 def random_date(start_year, end_year):
     year = random.randint(start_year, end_year)
     month = random.randint(1, 12)
     day = random.randint(1, 28)
     return f"{year}-{month:02d}-{day:02d}"
 
-# הגדרת כמויות (לפי דרישות המרצה)
+# Defining quantities (according to the lecturer's requirements)
 NUM_PATIENTS = 500
 NUM_DOCTORS = 100
 NUM_APPOINTMENTS = 500
-NUM_VISITS = 20000  # דרישה ל-20,000
+NUM_VISITS = 20000  # Requirement for 20,000
 NUM_PRESCRIPTIONS = 500
-NUM_PAYMENTS = 20000     # דרישה ל-20,000
+NUM_PAYMENTS = 20000     # Requirement for 20,000
 
 with open('insertTables.sql', 'w', encoding='utf-8') as f:
-    f.write("-- שיטה ג': יצירת נתונים באמצעות סקריפט פייתון\n\n")
+    f.write("-- Method C: Creating data using Python script\n\n")
 
     # 1. Patients
     f.write("-- Patients\n")
@@ -39,10 +39,10 @@ with open('insertTables.sql', 'w', encoding='utf-8') as f:
         d_id = random.randint(101, 101 + NUM_DOCTORS - 1)
         f.write(f"INSERT INTO Appointments VALUES ({i}, '{random_date(2024, 2025)}', '10:00:00', 'Completed', {p_id}, {d_id});\n")
 
-    # 4. Visits_Records (20,000 רשומות)
+    # 4. Visits_Records (20,000 records)
     f.write("\n-- Visits_Records (20,000 records)\n")
     for i in range(1, NUM_VISITS + 1):
-        app_id = 5000 + (i % NUM_APPOINTMENTS) # מקשר לתורים קיימים במחזוריות
+        app_id = 5000 + (i % NUM_APPOINTMENTS) # Links to existing appointments in cycles
         vitals = json.dumps({"temp": random.randint(36, 39), "bp": "120/80"})
         f.write(f"INSERT INTO Visits_Records VALUES ({i}, 'Diagnosis_{i}', 'Notes_{i}', '{vitals}', 'No', {app_id});\n")
 
@@ -52,7 +52,7 @@ with open('insertTables.sql', 'w', encoding='utf-8') as f:
         v_id = random.randint(1, NUM_VISITS)
         f.write(f"INSERT INTO Prescriptions VALUES ({i}, 'Medicine_{i}', '10mg', '{random_date(2024, 2025)}', 'Take daily', {v_id});\n")
 
-    # 6. Payments (20,000 רשומות)
+    # 6. Payments (20,000 records)
     f.write("\n-- Payments (20,000 records)\n")
     for i in range(1, NUM_PAYMENTS + 1):
         p_id = random.randint(1, NUM_PATIENTS)
